@@ -1,0 +1,10 @@
+node_modules/
+*.js
+*.js.map
+*.d.ts
+*.d.ts.map
+*.resx
+*.bin
+extracted.bin
+test_binary.bin
+test.resx
