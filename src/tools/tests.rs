@@ -43,7 +43,7 @@ impl Fixture {
     }
 
     fn ctx(&self, mutable: bool) -> Policy {
-        Policy::new(mutable, vec![self.root.clone()], 64 * 1024 * 1024)
+        Policy::new(mutable, std::slice::from_ref(&self.root), 64 * 1024 * 1024)
     }
 }
 

@@ -1,6 +1,5 @@
 //! resx-mcp — .NET .resx resource files over MCP.
 
-mod args;
 mod policy;
 mod tools;
 
@@ -35,7 +34,7 @@ struct Cli {
 #[tokio::main]
 async fn main() -> std::process::ExitCode {
     let cli = Cli::parse();
-    let policy = Policy::new(cli.allow_write, cli.roots, cli.max_file_bytes);
+    let policy = Policy::new(cli.allow_write, &cli.roots, cli.max_file_bytes);
     let group = Arc::new(ResxTools::new(policy));
 
     match mcp_toolkit::run("resx", env!("CARGO_PKG_VERSION"), group, cli.server).await {

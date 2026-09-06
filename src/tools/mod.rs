@@ -12,8 +12,8 @@ use quick_xml::events::{BytesEnd, BytesStart, BytesText, Event};
 use quick_xml::{Reader, Writer};
 use serde_json::{Value, json};
 
-use crate::args;
 use crate::policy::Policy;
+use mcp_toolkit::args;
 use mcp_toolkit::{ToolDef, ToolFailure, ToolGroup, ToolOutput, ToolResult};
 
 pub struct ResxTools {
@@ -221,7 +221,9 @@ fn write(arguments: &Value, ctx: &Policy) -> ToolResult<ToolOutput> {
     };
 
     let (updated, created) = upsert(&existing, key, value, comment)?;
-    std::fs::write(&path, &updated)
+    // Atomic: a crash midway through a plain write would leave the resource
+    // file truncated, losing every entry it held.
+    mcp_toolkit::write_atomically(&path, updated.as_bytes())
         .map_err(|e| ToolFailure::Failed(format!("could not write {}: {e}", path.display())))?;
 
     Ok(ToolOutput::structured(json!({
