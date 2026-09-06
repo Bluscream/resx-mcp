@@ -1,16 +1,13 @@
 //! resx-mcp — .NET .resx resource files over MCP.
 
-mod policy;
-mod tools;
-
 use std::path::PathBuf;
 use std::sync::Arc;
 
 use clap::Parser;
 use mcp_toolkit::ServerOptions;
 
-use policy::Policy;
-use tools::ResxTools;
+use resx_mcp::policy::Policy;
+use resx_mcp::tools::ResxTools;
 
 #[derive(Parser, Debug)]
 #[command(name = "resx-mcp", version, about = ".NET .resx resource files as an MCP server")]
